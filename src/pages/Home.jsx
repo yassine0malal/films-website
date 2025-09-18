@@ -7,7 +7,6 @@ function Home() {
 
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,22 +24,22 @@ function Home() {
     loadPopularMovies();
   }, []);
 
-  const handlesearch = async(e) => {
+  const handlesearch = async (e) => {
     e.preventDefault();
-    if(!searchQuery.trim())return
-    if(loading) return
+    if (!searchQuery.trim()) return;
+    if (loading) return;
     setLoading(true);
     try {
-        const searchResults = await searchMovies(searchQuery);
-        setMovies(searchResults);
-        setError(null);
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
     } catch (error) {
-        console.log(error);
-        setError("Failed to Search movies");
-    }finally{
-        setLoading(false);
+      console.log(error);
+      setError("Failed to Search movies");
+    } finally {
+      setLoading(false);
     }
-    
+
     setSearchQuery("");
   };
   return (
@@ -58,15 +57,20 @@ function Home() {
         </button>
       </form>
       {error && <div className="error-message"></div>}
-      {loading?<div className="loading">Loading...</div> : <div className="movies-grid">
-        {movies.map(
-          (movie) =>
-            movie.title.toLowerCase().startsWith(searchQuery.toLowerCase()) && (
-              <MovieCard movie={movie} key={movie.id} />
-            )
-        )}
-      </div>}
-      
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="movies-grid">
+          {movies.map(
+            (movie) =>
+              movie.title
+                .toLowerCase()
+                .startsWith(searchQuery.toLowerCase()) && (
+                <MovieCard movie={movie} key={movie.id} />
+              )
+          )}
+        </div>
+      )}
     </div>
   );
 }

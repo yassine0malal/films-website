@@ -1,34 +1,37 @@
-import { createContext,useState,useContext,useEffect } from "react";
-
+import {createContext, useState, useContext, useEffect} from "react"
 
 const MovieContext = createContext()
 
-export const useMovieContext = ()=> useContext(MovieContext)
-export const MovieProvider =({children})=>{
-    const [favorites,setFavorites] = useState([]);
-    useEffect(()=>{
-        const storedFavs = localStorage.getItem("favorites");
+/* eslint-disable react-refresh/only-export-components */
 
-        if(storedFavs)setFavorites(JSON.parse(storedFavs));
-    },[])
+export const useMovieContext = () => useContext(MovieContext)
 
-    useEffect(()=>{
-        localStorage.setItem('favorites',JSON.stringify(favorites));
-    },[favorites])
+export const MovieProvider = ({children}) => {
+    const [favorites, setFavorites] = useState([])
 
-    const addToFavorites=(movie)=>{
-        setFavorites(prev =>[...prev,movie])
+    useEffect(() => {
+        const storedFavs = localStorage.getItem("favorites")
+
+        if (storedFavs) setFavorites(JSON.parse(storedFavs))
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('favorites', JSON.stringify(favorites))
+    }, [favorites])
+
+    const addToFavorites = (movie) => {
+        setFavorites(prev => [...prev, movie])
     }
 
-    const removeFromFavorites = (movieId)=>{
-        setFavorites(prev=>prev.filter(movie=>movie.id !== movieId))
+    const removeFromFavorites = (movieId) => {
+        setFavorites(prev => prev.filter(movie => movie.id !== movieId))
+    }
+    
+    const isFavorite = (movieId) => {
+        return favorites.some(movie => movie.id === movieId)
     }
 
-    const isFavorite = (movieId)=>{
-        return favorites.some(movie=>movie.id === movieId);
-    }
-
-    const value ={
+    const value = {
         favorites,
         addToFavorites,
         removeFromFavorites,

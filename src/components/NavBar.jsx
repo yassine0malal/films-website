@@ -1,6 +1,4 @@
-import Favorites from "../pages/Favorites";
 import  '../css/NavBar.css'
-import Home from "../pages/Home";
 import {Link} from 'react-router-dom'
 
 function NavBar() {
